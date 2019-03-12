@@ -20,9 +20,7 @@ class App extends Component {
     super(props);
     this.state = {
       inputNumArr: [],
-      inputNum: 0,
       calcArr: [],
-      calcString:"Let's calculate!",
       total: 0
 
     }
@@ -30,14 +28,45 @@ class App extends Component {
     this.handleOperator = this.handleOperator.bind(this);
     this.handleClear = this.handleClear.bind(this);
     this.handleCalculation = this.handleCalculation.bind(this);
+    
   }
   /*event handler for number inputs*/
   handleNumInput(input){
-    let arr =[...this.state.inputNumArr, input];
+    let arr =[...this.state.inputNumArr];
+    const numRegEx = /\d/;
+    
+    /*if inputNumArr only has one number and that number is 0,
+    then preform special process for entering numbers or decimal.*/
+    if(arr.length === 1 && arr[0] === 0){
+      //if input is a decimal, then append decimal and return
+      if(input === "."){
+        arr.push(".");
+      } 
+      //if input is a number, then replace 1st position with input
+      else if (numRegEx.test(input)){
+        console.log("Not a decimal point!");
+        arr[0] = input;
+      }
+    } 
+    /*if input is a decimal and there are no decimals in the array,
+    then append a decimal*/
+    else if (input === "." && (arr.filter(x => x === ".") == 0)){
+      if (arr[0] === undefined){
+        arr = [0, "."];
+      } else {
+      arr.push(".");
+      }
+    }
+    //else if input is a number, then append number to array
+    else if (numRegEx.test(input)){
+      arr.push(input);
+    }
+    
     this.setState({
       inputNumArr: arr,
       total: ""
-    }) 
+    })
+     
   }
 
   /*event handler for operations*/
@@ -88,6 +117,7 @@ class App extends Component {
   renderButtons = numbers.map((number, index) => <button id={number} onClick={() => this.handleNumInput((index + 1))}>{index + 1}</button>);
     
   render() {
+    
     return (
       <div className="App">
         <div id="calculator">

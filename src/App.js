@@ -35,7 +35,11 @@ class App extends Component {
     let arr =[...this.state.inputNumArr];
     const numRegEx = /\d/;
     
-    /*if inputNumArr only has one number and that number is 0,
+    /*The if/then logic here validates the input of numeral zero,
+    and decimal points.  Only 1 decimal per number and only one leading 
+    zero before a decimal.*/
+
+    /*If inputNumArr only has one number and that number is 0,
     then preform special process for entering numbers or decimal.*/
     if(arr.length === 1 && arr[0] === 0){
       //if input is a decimal, then append decimal and return
@@ -44,7 +48,6 @@ class App extends Component {
       } 
       //if input is a number, then replace 1st position with input
       else if (numRegEx.test(input)){
-        console.log("Not a decimal point!");
         arr[0] = input;
       }
     } 
@@ -71,7 +74,19 @@ class App extends Component {
 
   /*event handler for operations*/
   handleOperator(operation){
-    let arr = [...this.state.calcArr, this.state.inputNumArr.join(""), this.state.total, operation];
+    let arr = [...this.state.calcArr];
+    /*if input number is equal to zero, then update operator in the last position of calcArr
+    with the input operation*/
+    if(this.state.inputNumArr.length === 0 && this.state.total !== ""){
+      arr = [...arr, this.state.total, operation];
+    } else if(this.state.inputNumArr.length === 0){
+      console.log("Last in calcArr: " + arr[arr.length - 1]);
+      arr[arr.length - 1] = operation;
+    } else {
+      arr = [...arr, this.state.inputNumArr.join(""), operation];
+    }
+
+    
     this.setState({
       inputNumArr: [],
       calcArr: arr,
@@ -102,18 +117,7 @@ class App extends Component {
     })
   }
 
-  /*didUpdate for console log debugging*/
-  componentDidUpdate(){
-    console.log("inputNumArr: " + this.state.inputNumArr);
-    console.log("calcArr: " + this.state.calcArr);
-    console.log("total: " + this.state.total);
-  }
-
-
-
-
-
-
+  
   renderButtons = numbers.map((number, index) => <button id={number} onClick={() => this.handleNumInput((index + 1))}>{index + 1}</button>);
     
   render() {
@@ -128,7 +132,15 @@ class App extends Component {
             <button id='multiply'onClick={() => this.handleOperator("*")}>*</button>
             <button id='subtract'onClick={() => this.handleOperator("-")}>-</button>
             <div id="numBtnsContainer">
-              {this.renderButtons}
+              <button id="seven" onClick={() => this.handleNumInput(7)}>7</button>
+              <button id="eight" onClick={() => this.handleNumInput(8)}>8</button>
+              <button id="nine" onClick={() => this.handleNumInput(9)}>9</button>
+              <button id="four" onClick={() => this.handleNumInput(4)}>4</button>
+              <button id="five" onClick={() => this.handleNumInput(5)}>5</button>
+              <button id="six" onClick={() => this.handleNumInput(6)}>6</button>
+              <button id="one" onClick={() => this.handleNumInput(1)}>1</button>
+              <button id="two" onClick={() => this.handleNumInput(2)}>2</button>
+              <button id="three" onClick={() => this.handleNumInput(3)}>3</button>
             </div>              
             <button id='add'onClick={() => this.handleOperator("+")}>+</button>
             <button id='zero' onClick={() => this.handleNumInput(0)}>0</button>

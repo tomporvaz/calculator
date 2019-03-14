@@ -3,17 +3,6 @@ import logo from './logo.svg';
 import './App.css';
 import math from "mathjs";
 
-let numbers = [
-  "one",
-  "two",
-  "three", 
-  "four",
-  "five",
-  "six",
-  "seven",
-  "eight",
-  "nine"
-]
 
 class App extends Component {
   constructor(props) {
@@ -105,25 +94,43 @@ class App extends Component {
 
   /*event handler to calculate the total*/
   handleCalculation(){
-    
     let newArr = [...this.state.calcArr, this.state.inputNumArr.join("")];
-    let total = math.eval(newArr.join(""));
-    let displayArr = [...this.state.calcArr, "=", total];
 
-    this.setState({
-      inputNumArr: [],
-      calcArr: [],
-      total: total
-    })
+    /*if then logic added here to test for valid math expression before passing
+    to math.eval*/
+    if(this.state.inputNumArr.length !== 0){
+      let total = math.eval(newArr.join(""));
+      total = this.roundDigits(total, 17);
+      this.setState({
+        inputNumArr: [],
+        calcArr: [],
+        total: total
+      })
+    }
   }
 
-  
-  renderButtons = numbers.map((number, index) => <button id={number} onClick={() => this.handleNumInput((index + 1))}>{index + 1}</button>);
-    
-  render() {
+  /*
+  rounds the number of digits displayed by calculating the number of digits
+  to the left of the decimal point and then rounding the numbers to the right
+  of the decimal by the difference between the total digits and the left hand
+  digits.
+  */
+  roundDigits(value, digits){
+    let numArr = value.toString().split(".");
+    let newDigits = digits;
+    if(digits > 15){
+      newDigits = 15;
+    }
+    return math.round(value, newDigits - numArr[0].length);
+  }
+
+
+  render() { 
     
     return (
       <div className="App">
+        <h3 style={{color: "white"}}>Calculator by</h3>
+        <h4><a href="https://tomporvaz.github.io/">Tom Porvaznik</a></h4>
         <div id="calculator">
           <p id="display">{this.state.calcArr}{this.state.inputNumArr}{this.state.total}</p>
           <div id="btnContainer">
@@ -147,35 +154,11 @@ class App extends Component {
             <button id='decimal'onClick={() => this.handleNumInput(".")}>.</button>
             <button id='equals' onClick={this.handleCalculation}>=</button>
           </div>
-
         </div>
       </div>
       );
     }
-  };
-  
-  
-  /*
-  This is the basic flow of the program using math.js.  
-  First the user will input the number via buttons or keypad to update the input array.
-  The input array will be joined on the fly into a new state property,
-  and this input will be displayed.  
-  Second, the input will be pushed onto the calculation array when an operation is selected.
-  Third, the operation will also be pushed on to the array.  
-  Fourth, the calc array will be joined in a calculation string.
-  (Maybe the calculation string should be displayed rather than the input string)
-  Fifth, when the enter/= button is selected, calc string will be evaluated with math.eval
-  */
-  //print("Hello Tom")
-  //print(math.eval('123 - 3 * 4'));
-  
-  let arr = [1, 2, 3, 4];
-  let newArr = arr.join("");
-  let calcArr = [2, "/", 7];
-  let calcString = calcArr.join("");
-  
-  console.log(math.eval(calcArr.join("")));
-  
+  }; 
    
   export default App;
   

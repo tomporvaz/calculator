@@ -14,9 +14,24 @@ body{
   justify-content: center;
 }
 
+h3 {
+  color: white;
+  margin: 1vmin;
+  padding: 0;
+}
+
+h4{
+  margin: 0 0 3vmin 0;
+}
+
+a{
+  text-decoration: none;
+  color: rgb(197, 194, 194);
+}
+
 #calculator{
   background-color: rgb(82, 82, 82);
-  height: 450px;
+  /*height: 450px;*/
   width: 300px;
 
 }
@@ -24,8 +39,14 @@ body{
 #display{
   background-color: white;
   width: 280px;
+  height: 70px;
   margin: 15px auto 10px;
   font-size: 30px;
+  word-wrap: break-word;
+  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: right;
 
 }
 

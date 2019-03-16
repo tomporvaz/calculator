@@ -99,7 +99,7 @@ class App extends Component {
     to math.eval*/
     if(this.state.inputNumArr.length !== 0){
       let total = math.eval(newArr.join(""));
-      total = this.roundDigits(total, 17);
+      total = this.roundDigits(total, 11);
       this.setState({
         inputNumArr: [],
         calcArr: [],
@@ -120,12 +120,21 @@ class App extends Component {
     if(digits > 15){
       newDigits = 15;
     }
-    return math.round(value, newDigits - numArr[0].length);
+    console.log("new digits: " + newDigits);
+
+    //logic to avoid passing math.round a negative number
+    if(numArr[0].length > newDigits){
+      return math.round(value, newDigits);  
+    } else {
+      return math.round(value, newDigits - numArr[0].length);
+    }
   }
 
 
   render() { 
-    
+    console.log("rounding = " + (math.round(99999999999999999999.3*3, 15)));
+    console.log("math.config: " + JSON.stringify(math.config()));
+    console.log("math.format: " + JSON.stringify(this.roundDigits(math.format(99999999999910000.362577, {lower: 0, upper:100000000000}), 11)));
     return (
       <div className="App">
         <h3 style={{color: "white"}}>Calculator by</h3>

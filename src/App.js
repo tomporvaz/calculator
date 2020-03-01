@@ -117,7 +117,7 @@ class App extends Component {
         </div>
 
         <h3 style={{color: "white"}}>Calculator by</h3>
-        <h4><a href="https://tomporvaz.github.io/">Tom Porvaznik</a></h4>
+        <h4><a href="https://porkpotato.com/">Tom Porvaznik</a></h4>
         <div id="calculator">
           <p id="display">{this.state.calcArr}{this.state.inputNumArr}{this.state.total}</p>
           <div id="btnContainer">

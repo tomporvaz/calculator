@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import math from "mathjs";
+import GitHubButton from 'react-github-btn';
+
 
 
 class App extends Component {
@@ -110,6 +112,10 @@ class App extends Component {
   render() { 
     return (
       <div className="App">
+        <div id="githubbtn">
+        <GitHubButton  href="https://github.com/tomporvaz/calculator">View on GitHub</GitHubButton>
+        </div>
+
         <h3 style={{color: "white"}}>Calculator by</h3>
         <h4><a href="https://tomporvaz.github.io/">Tom Porvaznik</a></h4>
         <div id="calculator">
